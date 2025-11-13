@@ -1,0 +1,20 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <div class="recipe-list"> 
+    {% for recipe in recipes %}
+      <div class="recipe-card">
+         {% if recipe.image %}
+        <img src="{{ recipe.image }}" alt="{{ recipe.title }}" style="width: 100px; height: 100px; object-fit: cover; float: left; margin-right: 15px; border-radius: 4px;">
+        {% endif %}
+        <h2><a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a></h2>
+        <p class="meta">Категорія: {{ recipe.category.name }} | Автор: {{ recipe.author.username }}</p>
+        <p>{{ recipe.description | truncate(150) }}</p>
+      </div>
+    {% else %}
+      <p>Рецептів ще не додано.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

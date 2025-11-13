@@ -1,0 +1,20 @@
+<nav>
+    <div class="container nav-container">
+        <a href="/" class="logo">Книга Рецептів</a>
+        <ul class="nav-links">
+            <li><a href="/recipes" class="{{ 'active' if currentUrl.startsWith('/recipes') }}">Рецепти</a></li>
+            {% if user %}
+                <li><a href="/recipes/new" class="{{ 'active' if currentUrl == '/recipes/new' }}">Створити рецепт</a></li>
+                {% if hasRole(user, 'admin') %}
+                    <li><a href="/categories" class="{{ 'active' if currentUrl.startsWith('/categories') }}">Категорії</a></li>
+                    <li><a href="/ingredients" class="{{ 'active' if currentUrl.startsWith('/ingredients') }}">Інгредієнти</a></li>
+                {% endif %}
+                <li class="user-greeting">Вітаємо, {{ user.username }}!</li>
+                <li><a href="/auth/logout">Вийти</a></li>
+            {% else %}
+                <li><a href="/auth/login" class="{{ 'active' if currentUrl == '/auth/login' }}">Увійти</a></li>
+                <li><a href="/auth/register" class="{{ 'active' if currentUrl == '/auth/register' }}">Реєстрація</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>

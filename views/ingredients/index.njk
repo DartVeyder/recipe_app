@@ -1,0 +1,35 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  
+  <div class="admin-panel">
+    <div class="admin-form">
+      <h3>Додати новий інгредієнт</h3>
+      <form action="/ingredients" method="POST">
+        <div class="form-group">
+          <label for="name">Назва інгредієнта</label>
+          <input type="text" id="name" name="name" value="{{ old.name or '' }}">
+          {% if errors.name %}<div class="error-text">{{ errors.name.msg }}</div>{% endif %}
+        </div>
+        <button type="submit" class="btn">Додати</button>
+      </form>
+    </div>
+
+    <div class="admin-list">
+      <h3>Існуючі інгредієнти</h3>
+      <ul>
+        {% for ingredient in ingredients %}
+          <li>
+            <span>{{ ingredient.name }}</span>
+            <form action="/ingredients/{{ ingredient.id }}?_method=DELETE" method="POST">
+              <button type="submit" class="btn-delete">Видалити</button>
+            </form>
+          </li>
+        {% else %}
+          <li>Інгредієнтів ще немає.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

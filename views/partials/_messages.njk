@@ -1,0 +1,17 @@
+{% if success_msg and success_msg.length > 0 %}
+    <div class="alert alert-success">
+        {{ success_msg }}
+    </div>
+{% endif %}
+
+{% if error_msg and error_msg.length > 0 %}
+    <div class="alert alert-danger">
+        {{ error_msg }}
+    </div>
+{% endif %}
+
+{% if error and error.length > 0 %}
+    <div class="alert alert-danger">
+        {{ error }}
+    </div>
+{% endif %}

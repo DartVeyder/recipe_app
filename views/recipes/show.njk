@@ -1,0 +1,38 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <div class="recipe-full">
+     {% if recipe.image %}
+      <img src="{{ recipe.image }}" alt="{{ recipe.title }}" style="max-width: 300px; height: auto; border-radius: 5px; margin-bottom: 1rem;">
+    {% endif %}
+    <h1>{{ recipe.title }}</h1>
+    <div class="meta">
+      <span>Автор: {{ recipe.author.username }}</span> |
+      <span>Категорія: {{ recipe.category.name }}</span>
+    </div>
+    
+    {% if hasRole(user, 'admin') or (user and user.id == recipe.userId) %}
+    <div class="controls">
+      <a href="/recipes/{{ recipe.id }}/edit" class="btn btn-secondary">Редагувати</a>
+      <form action="/recipes/{{ recipe.id }}?_method=DELETE" method="POST" style="display:inline;">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Ви впевнені?');">Видалити</button>
+      </form>
+    </div>
+    {% endif %}
+
+    <h2>Опис</h2>
+    <p>{{ recipe.description }}</p>
+
+    <h2>Інгредієнти</h2>
+    <ul>
+      {% for ingredient in recipe.ingredients %}
+        <li>{{ ingredient.name }}</li>
+      {% else %}
+        <li>Інгредієнти не вказано.</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Інструкції</h2>
+    <p style="white-space: pre-wrap;">{{ recipe.instructions }}</p>
+  </div>
+{% endblock %}

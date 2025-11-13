@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Додаток Рецептів</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    {% include "partials/_navbar.njk" %}
+
+    <main class="container">
+        {% include "partials/_messages.njk" %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Додаток Рецептів</p>
+    </footer>
+</body>
+</html>

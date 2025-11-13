@@ -1,0 +1,25 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <div class="hero">
+    <h1>Ласкаво просимо до Книги Рецептів!</h1>
+    <p>Знаходьте, створюйте та діліться найкращими кулінарними ідеями.</p>
+  </div>
+
+  <h2>Останні рецепти</h2>
+  <div class="recipe-list">
+    {% if latestRecipes.length > 0 %}
+      {% for recipe in latestRecipes %}
+        <div class="recipe-card">
+            {% if recipe.image %}
+            <img src="{{ recipe.image }}" alt="{{ recipe.title }}" style="width: 100px; height: 100px; object-fit: cover; float: left; margin-right: 15px; border-radius: 4px;">
+            {% endif %}
+          <h3><a href="/recipes/{{ recipe.id }}">{{ recipe.title }}</a></h3>
+          <p>Автор: {{ recipe.author.username }}</p>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Ще немає жодного рецепта. <a href="/recipes/new">Будьте першим!</a></p>
+    {% endif %}
+  </div>
+{% endblock %}

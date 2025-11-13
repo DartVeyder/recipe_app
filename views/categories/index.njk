@@ -1,0 +1,35 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <div class="admin-panel">
+    <div class="admin-form">
+      <h3>Додати нову категорію</h3>
+      <form action="/categories" method="POST">
+        <div class="form-group">
+          <label for="name">Назва категорії</label>
+          <input type="text" id="name" name="name" value="{{ old.name or '' }}">
+          {% if errors.name %}<div class="error-text">{{ errors.name.msg }}</div>{% endif %}
+        </div>
+        <button type="submit" class="btn">Додати</button>
+      </form>
+    </div>
+
+    <div class="admin-list">
+      <h3>Існуючі категорії</h3>
+      <ul>
+        {% for category in categories %}
+          <li>
+            <span>{{ category.name }}</span>
+            <form action="/categories/{{ category.id }}?_method=DELETE" method="POST">
+              <button type="submit" class="btn-delete">Видалити</button>
+            </form>
+          </li>
+        {% else %}
+          <li>Категорій ще немає.</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}

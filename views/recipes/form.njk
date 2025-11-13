@@ -1,0 +1,61 @@
+{% extends "layout.njk" %}
+
+{% block content %}
+  <h1>{{ "Створити рецепт" if not recipe.id else "Редагувати рецепт" }}</h1>
+<form action="{{ '/recipes' if not recipe.id else '/recipes/' + recipe.id + '?_method=PUT' }}" method="POST" class="recipe-form" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="title">Назва</label>
+      <input type="text" id="title" name="title" value="{{ old.title or recipe.title }}">
+      {% if errors.title %}<div class="error-text">{{ errors.title.msg }}</div>{% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="categoryId">Категорія</label>
+      <select id="categoryId" name="categoryId">
+        <option value="0">-- Виберіть категорію --</option>
+        {% for category in categories %}
+          <option value="{{ category.id }}" {{ 'selected' if (old.categoryId == category.id) or (recipe.categoryId == category.id) }}>
+            {{ category.name }}
+          </option>
+        {% endfor %}
+      </select>
+      {% if errors.categoryId %}<div class="error-text">{{ errors.categoryId.msg }}</div>{% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="description">Короткий опис</label>
+      <textarea id="description" name="description" rows="4">{{ old.description or recipe.description }}</textarea>
+      {% if errors.description %}<div class="error-text">{{ errors.description.msg }}</div>{% endif %}
+    </div>
+
+    <div class="form-group">
+      <label for="instructions">Інструкції з приготування</label>
+      <textarea id="instructions" name="instructions" rows="10">{{ old.instructions or recipe.instructions }}</textarea>
+      {% if errors.instructions %}<div class="error-text">{{ errors.instructions.msg }}</div>{% endif %}
+    </div>
+    
+    <div class="form-group">
+      <label>Інгредієнти</label>
+      <div class="checkbox-group">
+        {% for ingredient in ingredients %}
+        <label>
+          <input type="checkbox" name="ingredients" value="{{ ingredient.id }}"
+          {{ 'checked' if ingredient.id in selectedIngredients or ingredient.id in (old.ingredients or []) }}>
+          {{ ingredient.name }}
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="recipeImage">Зображення рецепта</label>
+        
+        {% if recipe.image %}
+            <img src="{{ recipe.image }}" alt="Поточне зображення" width="200" style="display: block; margin-bottom: 10px;">
+        {% endif %}
+        
+        <input type="file" id="recipeImage" name="recipeImage">
+        <small>Залиште поле порожнім, якщо не хочете змінювати зображення.</small>
+    </div>
+    <button type="submit" class="btn">Зберегти рецепт</button>
+  </form>
+{% endblock %}
